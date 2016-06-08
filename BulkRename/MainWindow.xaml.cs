@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Input;
-using BulkRename.Components;
+﻿using BulkRename.Components;
 using BulkRename.Components.IO;
 using BulkRename.Contexts;
 using BulkRename.ViewModels;
-using Path = System.IO.Path;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Input;
 
 namespace BulkRename
 {
@@ -29,7 +25,11 @@ namespace BulkRename
                 Template = "",
                 SourceItems = new List<string>(),
                 TargetItems = new List<string>(),
-            });
+            },
+            new FilterComponent(),
+            new RenamerComponent(),
+            new DirectorySearchComponent(),
+            new FileRenameComponent());
             DataContext = _context.ViewModel;
         }
 

@@ -1,23 +1,32 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
-using BulkRename.Components;
+﻿using BulkRename.Components;
 using BulkRename.Components.IO;
 using BulkRename.ViewModels;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BulkRename.Contexts
 {
     public class MainContext
     {
-        private readonly FilterComponent _filter = new FilterComponent();
-        private readonly RenamerComponent _renamer = new RenamerComponent();
-        private readonly DirectorySearchComponent _directorySearch = new DirectorySearchComponent();
-        private readonly FileRenameComponent _fileRename = new FileRenameComponent();
+        private readonly FilterComponent _filter;
+        private readonly RenamerComponent _renamer;
+        private readonly DirectorySearchComponent _directorySearch;
+        private readonly FileRenameComponent _fileRename;
 
         public MainViewModel ViewModel { get; }
 
-        public MainContext(MainViewModel viewModel)
+        public MainContext(
+            MainViewModel viewModel,
+            FilterComponent filter,
+            RenamerComponent renamer,
+            DirectorySearchComponent directorySearch,
+            FileRenameComponent fileRename)
         {
             ViewModel = viewModel;
+            _filter = filter;
+            _renamer = renamer;
+            _directorySearch = directorySearch;
+            _fileRename = fileRename;
         }
 
         public void ListFiles()
