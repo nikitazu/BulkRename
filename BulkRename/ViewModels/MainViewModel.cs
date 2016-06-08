@@ -78,5 +78,14 @@ namespace BulkRename.ViewModels
                 }
             }
         }
+
+        public MainViewModel()
+        {
+            Path = @"C:\";
+            Filter = string.Empty;
+            Template = string.Empty;
+            SourceItems = new List<string>();
+            TargetItems = new List<string>();
+        }
     }
 }

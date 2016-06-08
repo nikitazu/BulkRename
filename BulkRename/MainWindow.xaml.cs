@@ -2,7 +2,6 @@
 using BulkRename.Components.IO;
 using BulkRename.Contexts;
 using BulkRename.ViewModels;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,18 +17,12 @@ namespace BulkRename
         public MainWindow()
         {
             InitializeComponent();
-            _context = new MainContext(new MainViewModel
-            {
-                Path = @"C:\",
-                Filter = "",
-                Template = "",
-                SourceItems = new List<string>(),
-                TargetItems = new List<string>(),
-            },
-            new FilterComponent(),
-            new RenamerComponent(),
-            new DirectorySearchComponent(),
-            new FileRenameComponent());
+            _context = new MainContext(
+                new MainViewModel(),
+                new FilterComponent(),
+                new RenamerComponent(),
+                new DirectorySearchComponent(),
+                new FileRenameComponent());
             DataContext = _context.ViewModel;
         }
 
