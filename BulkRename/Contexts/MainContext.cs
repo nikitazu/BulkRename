@@ -12,6 +12,7 @@ namespace BulkRename.Contexts
         private readonly RenamerComponent _renamer;
         private readonly DirectorySearchComponent _directorySearch;
         private readonly FileRenameComponent _fileRename;
+        private readonly DirectoryAutocompleteComponent _autocomplete;
 
         public MainViewModel ViewModel { get; }
 
@@ -20,13 +21,15 @@ namespace BulkRename.Contexts
             FilterComponent filter,
             RenamerComponent renamer,
             DirectorySearchComponent directorySearch,
-            FileRenameComponent fileRename)
+            FileRenameComponent fileRename,
+            DirectoryAutocompleteComponent autocomplete)
         {
             ViewModel = viewModel;
             _filter = filter;
             _renamer = renamer;
             _directorySearch = directorySearch;
             _fileRename = fileRename;
+            _autocomplete = autocomplete;
         }
 
         public void ListFiles()
@@ -43,6 +46,11 @@ namespace BulkRename.Contexts
                         ? ViewModel.SourceItems.ToList()
                         : _renamer.Rename(ViewModel.Template, ViewModel.SourceItems).ToList();
             }
+        }
+
+        public void Autocomplete(bool isDown)
+        {
+            ViewModel.Path = _autocomplete.Autocomplete(ViewModel.Path, isDown);
         }
 
         public void RenameFiles()

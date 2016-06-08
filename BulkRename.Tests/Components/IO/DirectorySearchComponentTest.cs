@@ -49,5 +49,29 @@ namespace BulkRename.Tests.Components.IO
             Assert.AreEqual("file1", files[0]);
             Assert.AreEqual("file2", files[1]);
         }
+
+        [TestMethod]
+        public void ListDirectoriesGetsDirectoriesByMask()
+        {
+            Directory.CreateDirectory("foo");
+            Directory.CreateDirectory("foo\\dir1");
+            Directory.CreateDirectory("foo\\dir2");
+            var dirs = _search.ListDirs("foo", "di").ToList();
+            Assert.AreEqual(2, dirs.Count);
+            Assert.AreEqual("dir1", dirs[0]);
+            Assert.AreEqual("dir2", dirs[1]);
+        }
+
+        [TestMethod]
+        public void GetParentDirectoryPathShouldReturnParentDirectoryPath()
+        {
+            Assert.AreEqual("C:\\foo\\bar", _search.GetParentDirPath("C:\\foo\\bar\\yob"));
+        }
+
+        [TestMethod]
+        public void GetDirectoryNameShouldReturnDirectoryName()
+        {
+            Assert.AreEqual("yob", _search.GetDirName("C:\\foo\\bar\\yob"));
+        }
     }
 }

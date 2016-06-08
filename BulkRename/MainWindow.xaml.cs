@@ -17,20 +17,34 @@ namespace BulkRename
         public MainWindow()
         {
             InitializeComponent();
+            var ds = new DirectorySearchComponent();
             _context = new MainContext(
                 new MainViewModel(),
                 new FilterComponent(),
                 new RenamerComponent(),
-                new DirectorySearchComponent(),
-                new FileRenameComponent());
+                ds,
+                new FileRenameComponent(),
+                new DirectoryAutocompleteComponent(ds));
             DataContext = _context.ViewModel;
         }
 
         private void OnPathTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter || e.Key == Key.Return)
+            switch (e.Key)
             {
-                _context.ListFiles();
+                case Key.Enter:
+                    _context.ListFiles();
+                    break;
+
+                case Key.Down:
+                    _context.Autocomplete(true);
+                    _context.ListFiles();
+                    break;
+
+                case Key.Up:
+                    _context.Autocomplete(false);
+                    _context.ListFiles();
+                    break;
             }
         }
 
