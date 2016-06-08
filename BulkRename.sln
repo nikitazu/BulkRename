@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkRename", "BulkRename\BulkRename.csproj", "{634F4E08-B173-4459-BDFF-C6A9CED3AAC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkRename.Tests", "BulkRename.Tests\BulkRename.Tests.csproj", "{C10012EB-548A-410F-BA00-D618E3D555AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{634F4E08-B173-4459-BDFF-C6A9CED3AAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634F4E08-B173-4459-BDFF-C6A9CED3AAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634F4E08-B173-4459-BDFF-C6A9CED3AAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634F4E08-B173-4459-BDFF-C6A9CED3AAC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10012EB-548A-410F-BA00-D618E3D555AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10012EB-548A-410F-BA00-D618E3D555AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10012EB-548A-410F-BA00-D618E3D555AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10012EB-548A-410F-BA00-D618E3D555AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
