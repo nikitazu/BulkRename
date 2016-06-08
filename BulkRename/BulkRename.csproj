@@ -56,7 +56,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Components\FilterComponent.cs" />
+    <Compile Include="Components\IO\DirectorySearchComponent.cs" />
+    <Compile Include="Components\IO\FileRenameComponent.cs" />
     <Compile Include="Components\RenamerComponent.cs" />
+    <Compile Include="Contexts\MainContext.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
