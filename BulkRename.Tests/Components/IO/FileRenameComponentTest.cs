@@ -11,6 +11,7 @@ namespace BulkRename.Tests.Components.IO
         private FileRenameComponent _rename;
         private List<string> _source;
         private List<string> _target;
+        private List<string> _conflictingTarget;
 
         [TestInitialize]
         public void Init()
@@ -23,6 +24,10 @@ namespace BulkRename.Tests.Components.IO
             _target = new List<string>
             {
                 "file01", "file02"
+            };
+            _conflictingTarget = new List<string>
+            {
+                "file01", "file01"
             };
 
             if (Directory.Exists("foo"))
@@ -37,11 +42,25 @@ namespace BulkRename.Tests.Components.IO
             Directory.CreateDirectory("foo");
             File.WriteAllText("foo\\file1", "1");
             File.WriteAllText("foo\\file2", "2");
-            _rename.RenameFiles("foo", _source, _target);
+            var result = _rename.RenameFiles("foo", _source, _target);
+            Assert.AreEqual(FileRenameResult.Ok, result);
             Assert.IsTrue(File.Exists("foo\\file01"));
             Assert.IsTrue(File.Exists("foo\\file02"));
             Assert.IsFalse(File.Exists("foo\\file1"));
             Assert.IsFalse(File.Exists("foo\\file2"));
+        }
+
+        [TestMethod]
+        public void FilteRenamePreventsNameCollistion()
+        {
+            Directory.CreateDirectory("foo");
+            File.WriteAllText("foo\\file1", "1");
+            File.WriteAllText("foo\\file2", "2");
+            var result = _rename.RenameFiles("foo", _source, _conflictingTarget);
+            Assert.AreEqual(FileRenameResult.Conflict, result);
+            Assert.IsTrue(File.Exists("foo\\file1"));
+            Assert.IsTrue(File.Exists("foo\\file2"));
+            Assert.IsFalse(File.Exists("foo\\file01"));
         }
     }
 }

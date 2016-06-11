@@ -59,14 +59,11 @@ namespace BulkRename.Contexts
             return ActionResult.Ok;
         }
 
-        public ActionResult RenameFiles()
-        {
-            return InDirectory(path =>
-            {
-                _fileRename.RenameFiles(path, ViewModel.SourceItems, ViewModel.TargetItems);
-                return ActionResult.Ok;
-            });
-        }
+        public ActionResult RenameFiles() =>
+            InDirectory(path =>
+                _fileRename.RenameFiles(path, ViewModel.SourceItems, ViewModel.TargetItems) == FileRenameResult.Ok ?
+                    ActionResult.Ok :
+                    ActionResult.Error("File names are in conflict, operation cancelled"));
 
         private ActionResult InDirectory(Func<string, ActionResult> action)
         {
