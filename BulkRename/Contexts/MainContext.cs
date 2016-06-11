@@ -1,11 +1,32 @@
 ﻿using BulkRename.Components;
 using BulkRename.Components.IO;
 using BulkRename.ViewModels;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BulkRename.Contexts
 {
+    public struct ActionResult
+    {
+        public ActionResultType Type { get; set; }
+        public string ErrorMessage { get; set; }
+
+        public static readonly ActionResult Ok =
+            new ActionResult { Type = ActionResultType.Ok };
+
+        public static ActionResult Error(string message)
+        {
+            return new ActionResult { Type = ActionResultType.Error, ErrorMessage = message };
+        }
+    }
+
+    public enum ActionResultType
+    {
+        Ok,
+        Error
+    }
+
     public class MainContext
     {
         private readonly FilterComponent _filter;
@@ -32,32 +53,59 @@ namespace BulkRename.Contexts
             _autocomplete = autocomplete;
         }
 
-        public void ListFiles()
+        public ActionResult ListFiles()
         {
-            if (_directorySearch.DirectoryExists(ViewModel.Path))
+            return InDirectory(path =>
             {
-                var fileNames = _directorySearch.ListFiles(ViewModel.Path);
+                Regex regex;
+                var fileNames = _directorySearch.ListFiles(path);
+                try
+                {
+                    regex = new Regex(ViewModel.Filter);
+                }
+                catch (ArgumentException)
+                {
+                    return ActionResult.Error("Incorrect format of Regular expression");
+                }
+
                 ViewModel.SourceItems =
                     string.IsNullOrWhiteSpace(ViewModel.Filter)
                         ? fileNames.ToList()
-                        : _filter.Filter(new Regex(ViewModel.Filter), fileNames).ToList();
+                        : _filter.Filter(regex, fileNames).ToList();
                 ViewModel.TargetItems =
                     string.IsNullOrWhiteSpace(ViewModel.Template)
                         ? ViewModel.SourceItems.ToList()
                         : _renamer.Rename(ViewModel.Template, ViewModel.SourceItems).ToList();
-            }
+
+                return ActionResult.Ok;
+            });
         }
 
-        public void Autocomplete(bool isDown)
+        public ActionResult Autocomplete(bool isDown)
         {
             ViewModel.Path = _autocomplete.Autocomplete(ViewModel.Path, isDown);
+            return ActionResult.Ok;
         }
 
-        public void RenameFiles()
+        public ActionResult RenameFiles()
         {
-            if (_directorySearch.DirectoryExists(ViewModel.Path))
+            return InDirectory(path =>
             {
-                _fileRename.RenameFiles(ViewModel.Path, ViewModel.SourceItems, ViewModel.TargetItems);
+                _fileRename.RenameFiles(path, ViewModel.SourceItems, ViewModel.TargetItems);
+                return ActionResult.Ok;
+            });
+        }
+
+        private ActionResult InDirectory(Func<string, ActionResult> action)
+        {
+            var path = ViewModel.Path;
+            if (_directorySearch.DirectoryExists(path))
+            {
+                return action(path);
+            }
+            else
+            {
+                return ActionResult.Error($"Path not exists: {ViewModel.Path}");
             }
         }
     }
