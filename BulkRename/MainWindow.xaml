@@ -44,8 +44,16 @@
                      KeyUp="OnTemplateTextBoxKeyUp" />
         </StackPanel>
 
-        <StackPanel Grid.ColumnSpan="2" Grid.Row="2">
+        <StackPanel Grid.ColumnSpan="2"
+                    Grid.Row="2"
+                    Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="MinWidth" Value="150" />
+                </Style>
+            </StackPanel.Resources>
             <Button Click="OnRenameFilesButtonClick">Rename files</Button>
+            <Button Click="OnCancelLastRenameButtonClick">Cancel last rename</Button>
         </StackPanel>
 
         <Label Grid.Column="0" Grid.Row="3" >Files to rename</Label>

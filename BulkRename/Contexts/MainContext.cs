@@ -82,6 +82,11 @@ namespace BulkRename.Contexts
                     ActionResult.Ok :
                     ActionResult.Error("File names are in conflict, operation cancelled"));
 
+        public ActionResult CancelLastRename() =>
+            _fileRename.Cancel() == FileRenameCancelResult.Ok ?
+            ActionResult.Ok :
+            ActionResult.Error("Cancel operation failed");
+
         private ActionResult InDirectory(Func<string, ActionResult> action)
         {
             var path = ViewModel.Path;

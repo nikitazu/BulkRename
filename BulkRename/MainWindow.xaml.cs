@@ -85,6 +85,11 @@ namespace BulkRename
             });
         }
 
+        private void OnCancelLastRenameButtonClick(object sender, RoutedEventArgs e)
+        {
+            HandleResult(ok => _context.CancelLastRename());
+        }
+
         private void HandleResult(Func<ActionResult, ActionResult> action)
         {
             var result = action(ActionResult.Ok);

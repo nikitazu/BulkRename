@@ -1,5 +1,6 @@
 ﻿using BulkRename.Components.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -51,16 +52,54 @@ namespace BulkRename.Tests.Components.IO
         }
 
         [TestMethod]
-        public void FilteRenamePreventsNameCollistion()
+        public void FileRenamePreventsNameCollistion()
         {
             Directory.CreateDirectory("foo");
             File.WriteAllText("foo\\file1", "1");
             File.WriteAllText("foo\\file2", "2");
-            var result = _rename.RenameFiles("foo", _source, _conflictingTarget);
-            Assert.AreEqual(FileRenameResult.Conflict, result);
+            Assert.AreEqual(FileRenameResult.Conflict, _rename.RenameFiles("foo", _source, _conflictingTarget));
             Assert.IsTrue(File.Exists("foo\\file1"));
             Assert.IsTrue(File.Exists("foo\\file2"));
             Assert.IsFalse(File.Exists("foo\\file01"));
+        }
+
+        [TestMethod]
+        public void FileRenameCanBeCancelled()
+        {
+            Directory.CreateDirectory("foo");
+            File.WriteAllText("foo\\file1", "1");
+            File.WriteAllText("foo\\file2", "2");
+            _rename.RenameFiles("foo", _source, _target);
+            Assert.IsTrue(_rename.CanCancel());
+            Assert.AreEqual(FileRenameCancelResult.Ok, _rename.Cancel());
+            Assert.IsFalse(File.Exists("foo\\file01"));
+            Assert.IsFalse(File.Exists("foo\\file02"));
+            Assert.IsTrue(File.Exists("foo\\file1"));
+            Assert.IsTrue(File.Exists("foo\\file2"));
+        }
+
+        [TestMethod]
+        public void FileRenameCanNotBeCancelledIfNoRenamePerformed()
+        {
+            Assert.IsFalse(_rename.CanCancel());
+            Assert.AreEqual(FileRenameCancelResult.NothingToCancel, _rename.Cancel());
+        }
+
+        [TestMethod]
+        public void FileRenameCanNotBeCancelledTwice()
+        {
+            Directory.CreateDirectory("foo");
+            File.WriteAllText("foo\\file1", "1");
+            File.WriteAllText("foo\\file2", "2");
+            _rename.RenameFiles("foo", _source, _target);
+            Assert.IsTrue(_rename.CanCancel());
+            Assert.AreEqual(FileRenameCancelResult.Ok, _rename.Cancel());
+            Assert.IsFalse(_rename.CanCancel());
+            Assert.AreEqual(FileRenameCancelResult.NothingToCancel, _rename.Cancel());
+            Assert.IsFalse(File.Exists("foo\\file01"));
+            Assert.IsFalse(File.Exists("foo\\file02"));
+            Assert.IsTrue(File.Exists("foo\\file1"));
+            Assert.IsTrue(File.Exists("foo\\file2"));
         }
     }
 }
