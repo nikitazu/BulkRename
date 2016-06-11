@@ -60,6 +60,7 @@
     <Compile Include="Components\IO\DirectorySearchComponent.cs" />
     <Compile Include="Components\IO\FileRenameComponent.cs" />
     <Compile Include="Components\RenamerComponent.cs" />
+    <Compile Include="Contexts\ActionResult.cs" />
     <Compile Include="Contexts\MainContext.cs" />
     <Compile Include="Extensions\StringParserRegex.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -8,26 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace BulkRename.Contexts
 {
-    public struct ActionResult
-    {
-        public ActionResultType Type { get; set; }
-        public string ErrorMessage { get; set; }
-
-        public static readonly ActionResult Ok =
-            new ActionResult { Type = ActionResultType.Ok };
-
-        public static ActionResult Error(string message)
-        {
-            return new ActionResult { Type = ActionResultType.Error, ErrorMessage = message };
-        }
-    }
-
-    public enum ActionResultType
-    {
-        Ok,
-        Error
-    }
-
     public class MainContext
     {
         private readonly FilterComponent _filter;
@@ -54,29 +34,24 @@ namespace BulkRename.Contexts
             _autocomplete = autocomplete;
         }
 
-        public ActionResult ListFiles()
-        {
-            return InDirectory(path =>
-            {
-                var fileNames = _directorySearch.ListFiles(path);
-                Regex regex = ViewModel.Filter.TryParseRegex();
-                if (regex == null)
+        public ActionResult ListFiles() =>
+            InDirectory(path =>
+                WithRegex(regex =>
                 {
-                    return ActionResult.Error($"Incorrect regular expression: {ViewModel.Filter}");
-                }
+                    var fileNames = _directorySearch.ListFiles(path);
 
-                ViewModel.SourceItems =
-                    string.IsNullOrWhiteSpace(ViewModel.Filter)
-                        ? fileNames.ToList()
-                        : _filter.Filter(regex, fileNames).ToList();
-                ViewModel.TargetItems =
-                    string.IsNullOrWhiteSpace(ViewModel.Template)
-                        ? ViewModel.SourceItems.ToList()
-                        : _renamer.Rename(ViewModel.Template, ViewModel.SourceItems).ToList();
+                    ViewModel.SourceItems =
+                        string.IsNullOrWhiteSpace(ViewModel.Filter)
+                            ? fileNames.ToList()
+                            : _filter.Filter(regex, fileNames).ToList();
 
-                return ActionResult.Ok;
-            });
-        }
+                    ViewModel.TargetItems =
+                        string.IsNullOrWhiteSpace(ViewModel.Template)
+                            ? ViewModel.SourceItems.ToList()
+                            : _renamer.Rename(ViewModel.Template, ViewModel.SourceItems).ToList();
+
+                    return ActionResult.Ok;
+                }));
 
         public ActionResult Autocomplete(bool isDown)
         {
@@ -102,7 +77,20 @@ namespace BulkRename.Contexts
             }
             else
             {
-                return ActionResult.Error($"Path not exists: {ViewModel.Path}");
+                return ActionResult.Error($"Path not exists: {path}");
+            }
+        }
+
+        private ActionResult WithRegex(Func<Regex, ActionResult> action)
+        {
+            Regex regex = ViewModel.Filter.TryParseRegex();
+            if (regex != null)
+            {
+                return action(regex);
+            }
+            else
+            {
+                return ActionResult.Error($"Incorrect regular expression: {ViewModel.Filter}");
             }
         }
     }
