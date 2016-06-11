@@ -12,6 +12,9 @@ namespace BulkRename.Components.IO
             return Directory.Exists(path);
         }
 
+        public string GetHomeDir() =>
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
         public IEnumerable<string> ListFiles(string path)
         {
             try

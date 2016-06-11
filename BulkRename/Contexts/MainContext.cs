@@ -34,6 +34,11 @@ namespace BulkRename.Contexts
             _autocomplete = autocomplete;
         }
 
+        public void OpenHomeDirectory()
+        {
+            ViewModel.Path = _directorySearch.GetHomeDir();
+        }
+
         public ActionResult ListFiles() =>
             InDirectory(path =>
                 WithRegex(regex =>
@@ -45,6 +50,18 @@ namespace BulkRename.Contexts
                             ? fileNames.ToList()
                             : _filter.Filter(regex, fileNames).ToList();
 
+                    ViewModel.TargetItems =
+                        string.IsNullOrWhiteSpace(ViewModel.Template)
+                            ? ViewModel.SourceItems.ToList()
+                            : _renamer.Rename(ViewModel.Template, ViewModel.SourceItems).ToList();
+
+                    return ActionResult.Ok;
+                }));
+
+        public ActionResult ListOnlyTemplates() =>
+            InDirectory(path =>
+                WithRegex(regex =>
+                {
                     ViewModel.TargetItems =
                         string.IsNullOrWhiteSpace(ViewModel.Template)
                             ? ViewModel.SourceItems.ToList()

@@ -28,6 +28,7 @@ namespace BulkRename
                 new DirectoryAutocompleteComponent(ds));
             DataContext = _context.ViewModel;
 
+            _context.OpenHomeDirectory();
             _context.ListFiles();
         }
 
@@ -66,11 +67,21 @@ namespace BulkRename
             });
         }
 
+        private void OnTemplateTextBoxKeyUp(object sender, KeyEventArgs e)
+        {
+            HandleResult(ok =>
+            {
+                return _context.ListOnlyTemplates();
+            });
+        }
+
         private void OnRenameFilesButtonClick(object sender, RoutedEventArgs e)
         {
             HandleResult(ok =>
             {
-                return _context.RenameFiles();
+                return string.IsNullOrWhiteSpace(_context.ViewModel.Template) ?
+                    ActionResult.Error("Template is empty, nothing to rename") :
+                    _context.RenameFiles();
             });
         }
 

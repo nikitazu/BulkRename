@@ -18,12 +18,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.ColumnSpan="2"
                     Grid.Row="0">
-            <Label>Path</Label>
+            <Label>Working directory</Label>
             <TextBox Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
                      KeyUp="OnPathTextBoxKeyUp"
                      KeyDown="OnTextBoxKeyDown" />
@@ -40,14 +41,17 @@
                     Grid.Row="1">
             <Label>Name template</Label>
             <TextBox Text="{Binding Template, UpdateSourceTrigger=PropertyChanged}"
-                     KeyDown="OnTextBoxKeyDown" />
+                     KeyUp="OnTemplateTextBoxKeyUp" />
         </StackPanel>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="2">
             <Button Click="OnRenameFilesButtonClick">Rename files</Button>
         </StackPanel>
 
-        <ListView Grid.Column="0" Grid.Row="3" ItemsSource="{Binding SourceItems}" />
-        <ListView Grid.Column="1" Grid.Row="3" ItemsSource="{Binding TargetItems}" />
+        <Label Grid.Column="0" Grid.Row="3" >Files to rename</Label>
+        <ListView Grid.Column="0" Grid.Row="4" ItemsSource="{Binding SourceItems}" />
+
+        <Label Grid.Column="1" Grid.Row="3" >New names</Label>
+        <ListView Grid.Column="1" Grid.Row="4" ItemsSource="{Binding TargetItems}" />
     </Grid>
 </Window>
