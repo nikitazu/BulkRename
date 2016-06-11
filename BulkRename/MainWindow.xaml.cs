@@ -33,7 +33,7 @@ namespace BulkRename
 
         private void OnPathTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            HandleResult(result =>
+            HandleResult(ok =>
             {
                 switch (e.Key)
                 {
@@ -46,14 +46,14 @@ namespace BulkRename
                         return _context.ListFiles();
 
                     default:
-                        return result;
+                        return ok;
                 }
             });
         }
 
         private void OnPathTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            HandleResult(result =>
+            HandleResult(ok =>
             {
                 switch (e.Key)
                 {
@@ -61,38 +61,38 @@ namespace BulkRename
                         return _context.ListFiles();
 
                     default:
-                        return result;
+                        return ok;
                 }
             });
         }
 
         private void OnFilterTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            HandleResult(result =>
+            HandleResult(ok =>
             {
                 if (e.Key == Key.Enter || e.Key == Key.Return)
                 {
                     return _context.ListFiles();
                 }
-                return result;
+                return ok;
             });
         }
 
         private void OnTemplateTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            HandleResult(result =>
+            HandleResult(ok =>
             {
                 if (e.Key == Key.Enter || e.Key == Key.Return)
                 {
                     return _context.ListFiles();
                 }
-                return result;
+                return ok;
             });
         }
 
         private void OnRenameFilesButtonClick(object sender, RoutedEventArgs e)
         {
-            HandleResult(result =>
+            HandleResult(ok =>
             {
                 return _context.RenameFiles();
             });
