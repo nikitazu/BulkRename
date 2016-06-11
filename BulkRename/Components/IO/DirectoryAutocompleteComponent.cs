@@ -21,7 +21,7 @@ namespace BulkRename.Components.IO
                 if (path.EndsWith(Path.DirectorySeparatorChar.ToString()))
                 {
                     var suggestion = _search.ListDirs(path, string.Empty).FirstOrDefault();
-                    return suggestion != null ? Path.Combine(path, suggestion) : path;
+                    return suggestion != null ? Path.Combine(path, suggestion.Name) : path;
                 }
                 else
                 {
@@ -31,9 +31,9 @@ namespace BulkRename.Components.IO
                     {
                         if (foundCurrent)
                         {
-                            return Path.Combine(parent, suggestion);
+                            return Path.Combine(parent, suggestion.Name);
                         }
-                        foundCurrent = suggestion == mask;
+                        foundCurrent = suggestion.Name == mask;
                     }
                     return path;
                 }
@@ -41,7 +41,7 @@ namespace BulkRename.Components.IO
             else
             {
                 var suggestion = _search.ListDirs(parent, mask).FirstOrDefault();
-                return suggestion != null ? Path.Combine(parent, suggestion) : path;
+                return suggestion != null ? Path.Combine(parent, suggestion.Name) : path;
             }
         }
     }

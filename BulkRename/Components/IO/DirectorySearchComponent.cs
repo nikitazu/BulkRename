@@ -29,17 +29,17 @@ namespace BulkRename.Components.IO
             }
         }
 
-        public IEnumerable<string> ListDirs(string path, string startsWith)
+        public IEnumerable<DirectoryInfo> ListDirs(string path, string startsWith)
         {
             try
             {
                 return Directory.Exists(path) ?
-                    new DirectoryInfo(path).GetDirectories(startsWith + "*").Select(f => f.Name) :
-                    new List<string>();
+                    new DirectoryInfo(path).GetDirectories(startsWith + "*") :
+                    new DirectoryInfo[] { };
             }
             catch (UnauthorizedAccessException)
             {
-                return new List<string>();
+                return new DirectoryInfo[] { };
             }
         }
 

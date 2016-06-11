@@ -1,0 +1,46 @@
+﻿<Window x:Class="BulkRename.Views.OpenFolderDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BulkRename.Views"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        WindowStartupLocation="CenterOwner"
+        Height="480"
+        Width="640">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.ColumnSpan="2"
+               Content="{Binding Directory}" />
+
+        <Label Grid.ColumnSpan="2"
+               Grid.Row="1">Contents</Label>
+
+        <ListView Grid.ColumnSpan="2"
+                  Grid.Row="2"
+                  ItemsSource="{Binding Directories}"
+                  MouseLeftButtonUp="OnDirectoriesMouseLeftButtonUp" />
+
+        <Button Grid.Column="0"
+                Grid.Row="3"
+                IsDefault="True"
+                Click="OnOkButtonClick">Ok</Button>
+
+        <Button Grid.Column="1"
+                Grid.Row="3"
+                IsCancel="True"
+                Click="OnCancelButtonClick">Cancel</Button>
+    </Grid>
+</Window>

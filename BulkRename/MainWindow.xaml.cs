@@ -2,6 +2,8 @@
 using BulkRename.Components.IO;
 using BulkRename.Contexts;
 using BulkRename.ViewModels;
+using BulkRename.Views;
+using Microsoft.Win32;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -78,6 +80,23 @@ namespace BulkRename
             {
                 return _context.ListOnlyTemplates();
             });
+        }
+
+        private void OnDirectoryOpenButtonClick(object sender, RoutedEventArgs e)
+        {
+            var dialogContext = new OpenFolderDialogContext(
+                new OpenFolderDialogViewModel(),
+                new DirectorySearchComponent());
+
+            dialogContext.ViewModel.Title = "Bulk Rename | Open folder";
+            dialogContext.ViewModel.Directory = _context.ViewModel.Path;
+            var dialog = new OpenFolderDialogView(this, dialogContext);
+            var result = dialog.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
+                _context.ViewModel.Path = dialogContext.ViewModel.Directory;
+                _context.ListFiles();
+            }
         }
 
         private void OnRenameFilesButtonClick(object sender, RoutedEventArgs e)

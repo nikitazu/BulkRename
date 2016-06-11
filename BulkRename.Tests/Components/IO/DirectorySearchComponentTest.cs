@@ -58,8 +58,8 @@ namespace BulkRename.Tests.Components.IO
             Directory.CreateDirectory("foo\\dir2");
             var dirs = _search.ListDirs("foo", "di").ToList();
             Assert.AreEqual(2, dirs.Count);
-            Assert.AreEqual("dir1", dirs[0]);
-            Assert.AreEqual("dir2", dirs[1]);
+            Assert.AreEqual("dir1", dirs[0].Name);
+            Assert.AreEqual("dir2", dirs[1].Name);
         }
 
         [TestMethod]
