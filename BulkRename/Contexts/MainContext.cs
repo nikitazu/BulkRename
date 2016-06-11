@@ -83,6 +83,7 @@ namespace BulkRename.Contexts
                     ActionResult.Ok :
                     ActionResult.Error("File names are in conflict, operation cancelled");
                 ViewModel.CanCancel = _fileRename.CanCancel();
+                ViewModel.SourceItems = ViewModel.TargetItems.ToList();
                 return result;
             });
 
