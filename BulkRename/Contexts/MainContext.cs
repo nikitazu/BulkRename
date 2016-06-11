@@ -1,5 +1,6 @@
 ﻿using BulkRename.Components;
 using BulkRename.Components.IO;
+using BulkRename.Extensions;
 using BulkRename.ViewModels;
 using System;
 using System.Linq;
@@ -57,15 +58,11 @@ namespace BulkRename.Contexts
         {
             return InDirectory(path =>
             {
-                Regex regex;
                 var fileNames = _directorySearch.ListFiles(path);
-                try
+                Regex regex = ViewModel.Filter.TryParseRegex();
+                if (regex == null)
                 {
-                    regex = new Regex(ViewModel.Filter);
-                }
-                catch (ArgumentException)
-                {
-                    return ActionResult.Error("Incorrect format of Regular expression");
+                    return ActionResult.Error($"Incorrect regular expression: {ViewModel.Filter}");
                 }
 
                 ViewModel.SourceItems =

@@ -55,6 +55,7 @@
     <Compile Include="Components\IO\DirectorySearchComponentTest.cs" />
     <Compile Include="Components\IO\FileRenameComponentTest.cs" />
     <Compile Include="Components\RenamerComponentTest.cs" />
+    <Compile Include="Extensions\StringParserRegexTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
