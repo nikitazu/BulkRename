@@ -13,6 +13,7 @@ namespace BulkRename.ViewModels
         private string _template;
         private List<string> _sourceItems;
         private List<string> _targetItems;
+        private bool _canCancel;
 
         public string Path
         {
@@ -79,6 +80,19 @@ namespace BulkRename.ViewModels
             }
         }
 
+        public bool CanCancel
+        {
+            get { return _canCancel; }
+            set
+            {
+                if (_canCancel != value)
+                {
+                    _canCancel = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanCancel)));
+                }
+            }
+        }
+
         public MainViewModel()
         {
             Path = @"C:\";
@@ -86,6 +100,7 @@ namespace BulkRename.ViewModels
             Template = string.Empty;
             SourceItems = new List<string>();
             TargetItems = new List<string>();
+            CanCancel = false;
         }
     }
 }
