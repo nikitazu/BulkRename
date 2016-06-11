@@ -26,21 +26,21 @@
             <Label>Path</Label>
             <TextBox Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
                      KeyUp="OnPathTextBoxKeyUp"
-                     KeyDown="OnPathTextBoxKeyDown" />
+                     KeyDown="OnTextBoxKeyDown" />
         </StackPanel>
 
         <StackPanel Grid.Column="0"
                     Grid.Row="1">
             <Label>File search regex</Label>
             <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"
-                     KeyDown="OnFilterTextBoxKeyDown" />
+                     KeyDown="OnTextBoxKeyDown" />
         </StackPanel>
 
         <StackPanel Grid.Column="1"
                     Grid.Row="1">
             <Label>Name template</Label>
             <TextBox Text="{Binding Template, UpdateSourceTrigger=PropertyChanged}"
-                     KeyDown="OnTemplateTextBoxKeyDown" />
+                     KeyDown="OnTextBoxKeyDown" />
         </StackPanel>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="2">

@@ -51,7 +51,7 @@ namespace BulkRename
             });
         }
 
-        private void OnPathTextBoxKeyDown(object sender, KeyEventArgs e)
+        private void OnTextBoxKeyDown(object sender, KeyEventArgs e)
         {
             HandleResult(ok =>
             {
@@ -63,30 +63,6 @@ namespace BulkRename
                     default:
                         return ok;
                 }
-            });
-        }
-
-        private void OnFilterTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleResult(ok =>
-            {
-                if (e.Key == Key.Enter || e.Key == Key.Return)
-                {
-                    return _context.ListFiles();
-                }
-                return ok;
-            });
-        }
-
-        private void OnTemplateTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleResult(ok =>
-            {
-                if (e.Key == Key.Enter || e.Key == Key.Return)
-                {
-                    return _context.ListFiles();
-                }
-                return ok;
             });
         }
 
