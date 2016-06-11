@@ -26,6 +26,7 @@
                     Grid.Row="0">
             <Label>Working directory</Label>
             <TextBox Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
+                     LostFocus="OnTextBoxLostFocus"
                      KeyUp="OnPathTextBoxKeyUp"
                      KeyDown="OnTextBoxKeyDown" />
         </StackPanel>
@@ -34,6 +35,7 @@
                     Grid.Row="1">
             <Label>File search regex</Label>
             <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"
+                     LostFocus="OnTextBoxLostFocus"
                      KeyDown="OnTextBoxKeyDown" />
         </StackPanel>
 

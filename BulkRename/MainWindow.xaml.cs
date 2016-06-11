@@ -67,6 +67,11 @@ namespace BulkRename
             });
         }
 
+        private void OnTextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            _context.ListFiles();
+        }
+
         private void OnTemplateTextBoxKeyUp(object sender, KeyEventArgs e)
         {
             HandleResult(ok =>
