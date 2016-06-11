@@ -26,6 +26,8 @@ namespace BulkRename
                 new FileRenameComponent(),
                 new DirectoryAutocompleteComponent(ds));
             DataContext = _context.ViewModel;
+
+            _context.ListFiles();
         }
 
         private void OnPathTextBoxKeyUp(object sender, KeyEventArgs e)
