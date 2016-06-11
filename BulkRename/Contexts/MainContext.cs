@@ -93,6 +93,7 @@ namespace BulkRename.Contexts
                 ActionResult.Ok :
                 ActionResult.Error("Cancel operation failed");
             ViewModel.CanCancel = _fileRename.CanCancel();
+            ListFiles();
             return result;
         }
 
