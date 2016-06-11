@@ -2,6 +2,7 @@
 using BulkRename.Components.IO;
 using BulkRename.Contexts;
 using BulkRename.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,73 +33,74 @@ namespace BulkRename
 
         private void OnPathTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            ActionResult result = ActionResult.Ok;
-
-            switch (e.Key)
+            HandleResult(result =>
             {
-                case Key.Down:
-                    _context.Autocomplete(true);
-                    result = _context.ListFiles();
-                    break;
+                switch (e.Key)
+                {
+                    case Key.Down:
+                        _context.Autocomplete(true);
+                        return _context.ListFiles();
 
-                case Key.Up:
-                    _context.Autocomplete(false);
-                    result = _context.ListFiles();
-                    break;
-            }
+                    case Key.Up:
+                        _context.Autocomplete(false);
+                        return _context.ListFiles();
 
-            HandleResult(result);
+                    default:
+                        return result;
+                }
+            });
         }
 
         private void OnPathTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            ActionResult result = ActionResult.Ok;
-
-            switch (e.Key)
+            HandleResult(result =>
             {
-                case Key.Enter:
-                    result = _context.ListFiles();
-                    break;
-            }
+                switch (e.Key)
+                {
+                    case Key.Enter:
+                        return _context.ListFiles();
 
-            HandleResult(result);
+                    default:
+                        return result;
+                }
+            });
         }
 
         private void OnFilterTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            ActionResult result = ActionResult.Ok;
-
-            if (e.Key == Key.Enter || e.Key == Key.Return)
+            HandleResult(result =>
             {
-                result = _context.ListFiles();
-            }
-
-            HandleResult(result);
+                if (e.Key == Key.Enter || e.Key == Key.Return)
+                {
+                    return _context.ListFiles();
+                }
+                return result;
+            });
         }
 
         private void OnTemplateTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            ActionResult result = ActionResult.Ok;
-
-            if (e.Key == Key.Enter || e.Key == Key.Return)
+            HandleResult(result =>
             {
-                result = _context.ListFiles();
-            }
-
-            HandleResult(result);
+                if (e.Key == Key.Enter || e.Key == Key.Return)
+                {
+                    return _context.ListFiles();
+                }
+                return result;
+            });
         }
 
         private void OnRenameFilesButtonClick(object sender, RoutedEventArgs e)
         {
-            ActionResult result = ActionResult.Ok;
-
-            result = _context.RenameFiles();
-
-            HandleResult(result);
+            HandleResult(result =>
+            {
+                return _context.RenameFiles();
+            });
         }
 
-        private void HandleResult(ActionResult result)
+        private void HandleResult(Func<ActionResult, ActionResult> action)
         {
+            var result = action(ActionResult.Ok);
             if (result.Type == ActionResultType.Error)
             {
                 MessageBox.Show(result.ErrorMessage, "Input error", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -23,17 +23,18 @@ namespace BulkRename.Components
         private static bool ReplaceHashWithNumber(string template, string input, int number, out string result)
         {
             result = input;
-            var hashStartIndex = template.IndexOf(Hash);
-            var hashIsPresent = hashStartIndex > -1;
+            var startIndex = template.IndexOf(Hash);
+            var hashIsPresent = startIndex > -1;
             if (hashIsPresent)
             {
-                var hashEndIndex = hashStartIndex;
-                while (hashEndIndex < template.Length && template[++hashEndIndex] == Hash)
+                var endIndex = startIndex;
+                while (endIndex < template.Length && template[endIndex] == Hash)
                 {
-                    // empty
+                    endIndex += 1;
                 }
-                var hashLength = hashEndIndex - hashStartIndex;
-                var hashes = template.Substring(hashStartIndex, hashLength);
+                var delta = endIndex - startIndex;
+                var hashLength = delta == 0 ? 1 : delta;
+                var hashes = template.Substring(startIndex, hashLength);
                 result = input.Replace(hashes, number.ToString("D" + hashLength));
             }
             return hashIsPresent;
