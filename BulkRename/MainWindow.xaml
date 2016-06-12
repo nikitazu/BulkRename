@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Bulk Rename"
         WindowStartupLocation="CenterScreen"
+        KeyDown="OnWindowKeyDown"
         Height="600"
         Width="800">
     <Grid>
@@ -28,14 +29,20 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Click="OnDirectoryOpenButtonClick">Directory</Button>
+            <Button Grid.Column="0"
+                    Click="OnDirectoryOpenButtonClick">Directory</Button>
+
             <TextBox Grid.Column="1"
                      Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
                      LostFocus="OnTextBoxLostFocus"
                      KeyUp="OnPathTextBoxKeyUp"
                      KeyDown="OnTextBoxKeyDown" />
+
+            <Button Grid.Column="2"
+                    Click="OnAboutButtonClick">About</Button>
         </Grid>
 
         <StackPanel Grid.Column="0"

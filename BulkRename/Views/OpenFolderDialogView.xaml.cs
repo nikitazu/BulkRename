@@ -1,4 +1,5 @@
 ﻿using BulkRename.Contexts;
+using BulkRename.Views.Base;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,13 +9,12 @@ namespace BulkRename.Views
     /// <summary>
     /// Interaction logic for OpenFolderDialogView.xaml
     /// </summary>
-    public partial class OpenFolderDialogView : Window
+    public partial class OpenFolderDialogView : DialogView
     {
         private OpenFolderDialogContext _context;
 
-        public OpenFolderDialogView(Window owner, OpenFolderDialogContext context)
+        public OpenFolderDialogView(Window owner, OpenFolderDialogContext context) : base(owner)
         {
-            Owner = owner;
             InitializeComponent();
             _context = context;
             DataContext = _context.ViewModel;

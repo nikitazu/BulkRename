@@ -99,6 +99,11 @@ namespace BulkRename
             }
         }
 
+        private void OnAboutButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowAboutDialog();
+        }
+
         private void OnRenameFilesButtonClick(object sender, RoutedEventArgs e)
         {
             HandleResult(ok =>
@@ -121,6 +126,24 @@ namespace BulkRename
             {
                 MessageBox.Show(result.ErrorMessage, "Input error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void OnWindowKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.F1:
+                    ShowAboutDialog();
+                    break;
+            }
+        }
+
+        private void ShowAboutDialog()
+        {
+            new AboutView(this, new AboutContext(
+                new AboutViewModel { Title = "About Bulk Rename" },
+                new Components.Net.UpdatesComponent()
+            )).ShowDialog();
         }
     }
 }

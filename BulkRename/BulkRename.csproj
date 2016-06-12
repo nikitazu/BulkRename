@@ -59,14 +59,21 @@
     <Compile Include="Components\IO\DirectoryAutocompleteComponent.cs" />
     <Compile Include="Components\IO\DirectorySearchComponent.cs" />
     <Compile Include="Components\IO\FileRenameComponent.cs" />
+    <Compile Include="Components\Net\UpdatesComponent.cs" />
     <Compile Include="Components\RenamerComponent.cs" />
+    <Compile Include="Contexts\AboutContext.cs" />
     <Compile Include="Contexts\ActionResult.cs" />
     <Compile Include="Contexts\MainContext.cs" />
     <Compile Include="Contexts\OpenFolderDialogContext.cs" />
     <Compile Include="Extensions\StringParserRegex.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OpenFolderDialogViewModel.cs" />
     <Compile Include="ViewModels\OpenFolderViewModel.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Base\DialogView.cs" />
     <Compile Include="Views\OpenFolderDialogView.xaml.cs">
       <DependentUpon>OpenFolderDialogView.xaml</DependentUpon>
     </Compile>
@@ -82,6 +89,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\OpenFolderDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
