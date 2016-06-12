@@ -3,7 +3,6 @@ using BulkRename.Components.Net;
 using BulkRename.ViewModels;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BulkRename.Contexts
 {
