@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -8,8 +9,6 @@ namespace BulkRename.Components.Net
 {
     public class UpdatesComponent
     {
-        public const string CurrentVersion = "v0.2-alpha";
-
         private const string _checkUrl = "https://github.com/nikitazu/BulkRename/releases";
         private readonly Regex _versionLineRegex = new Regex(@"/nikitazu/BulkRename/tree/(v[\w|\.|\-]+)""", RegexOptions.Compiled);
         private readonly Regex _versionValueRegex = new Regex(@"v(\d{1,3})\.(\d{1,4})(\-\w+)?", RegexOptions.Compiled);
@@ -59,5 +58,8 @@ namespace BulkRename.Components.Net
 
         public string MakeGetVersionUrl(string version) =>
             $"https://github.com/nikitazu/BulkRename/tree/{version}";
+
+        public string CurrentVersion =>
+            "v" + Assembly.GetEntryAssembly().GetName().Version.ToString();
     }
 }

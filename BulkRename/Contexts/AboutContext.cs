@@ -21,7 +21,8 @@ namespace BulkRename.Contexts
 
         public async void CheckForUpdates()
         {
-            ViewModel.UpdateData = "Checking for updates..." + NL;
+            var currentVersion = _updates.CurrentVersion;
+            ViewModel.UpdateData = $"Current version is {currentVersion}{NL}Checking for updates...{NL}";
             await _updates.CheckForUpdates(line =>
             {
                 if (_updates.ContainsVersionData(line))
@@ -29,7 +30,6 @@ namespace BulkRename.Contexts
                     var version = _updates.ParseVersion(line);
                     var getVersion = _updates.MakeGetVersionUrl(version);
                     var versionNumber = _updates.VersionToNumber(version);
-                    var currentVersion = UpdatesComponent.CurrentVersion;
                     var currentNumber = _updates.VersionToNumber(currentVersion);
                     var comparison = versionNumber > currentNumber ? "+" : versionNumber == currentNumber ? "=" : "-";
                     ViewModel.UpdateData += $"{comparison} {version} {getVersion}{NL}";
