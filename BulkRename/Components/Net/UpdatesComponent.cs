@@ -40,6 +40,19 @@ namespace BulkRename.Components.Net
             return string.Empty;
         }
 
+        public async Task<string> DownloadVersion(string url)
+        {
+            var request = FileWebRequest.Create(url);
+            request.Method = "GET";
+            using (var response = await request.GetResponseAsync())
+            using (var stream = response.GetResponseStream())
+            using (var tmpFile = File.OpenWrite(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tmp.zip")))
+            {
+                stream.CopyTo(tmpFile);
+            }
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tmp.zip");
+        }
+
         public long VersionToNumber(string version)
         {
             var match = _versionValueRegex.Match(version);
@@ -57,7 +70,7 @@ namespace BulkRename.Components.Net
         }
 
         public string MakeGetVersionUrl(string version) =>
-            $"https://github.com/nikitazu/BulkRename/tree/{version}";
+            $"https://github.com/nikitazu/BulkRename/releases/download/{version}/BulkRename-{version}.zip";
 
         public string CurrentVersion =>
             "v" + Assembly.GetEntryAssembly().GetName().Version.ToString();

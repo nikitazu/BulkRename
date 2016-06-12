@@ -31,7 +31,7 @@ namespace BulkRename.Tests.Components.Net
         public void UpdatesComponentMakeGetVersionUrlShouldReturnUrl()
         {
             Assert.AreEqual(
-                "https://github.com/nikitazu/BulkRename/tree/v0.1-alpha",
+                "https://github.com/nikitazu/BulkRename/releases/download/v0.1-alpha/BulkRename-v0.1-alpha.zip",
                 _updates.MakeGetVersionUrl("v0.1-alpha"));
         }
 

@@ -5,7 +5,12 @@ namespace BulkRename.Views.Base
 {
     public abstract class DialogView : Window
     {
-        public DialogView(Window owner = null)
+        internal DialogView()
+        {
+            // for XAML designer
+        }
+
+        public DialogView(Window owner)
         {
             Owner = owner;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;

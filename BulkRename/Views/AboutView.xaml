@@ -17,6 +17,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -31,7 +32,29 @@
                FontSize="15"
                HorizontalAlignment="Center">Licensed under Gnu General Public License 3</Label>
 
-        <TextBox Grid.Row="4"
+        <TextBox Grid.Row="3"
                  Text="{Binding UpdateData}" />
+
+        <ListView Grid.Row="4"
+                  ItemsSource="{Binding DownloadableVersions}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <RichTextBox IsReadOnly="True" IsDocumentEnabled="True" MinWidth="400">
+                        <FlowDocument>
+                            <Paragraph>
+                                <TextBlock Text="{Binding Version}" />
+                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="OnOpenInBrowserVersionRequestNavigate">
+                                    <TextBlock Text="open in browser" />
+                                </Hyperlink>
+                                <TextBlock>or</TextBlock>
+                                <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="OnDownloadVersionRequestNavigate">
+                                    <TextBlock Text="download" />
+                                </Hyperlink>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </base:DialogView>

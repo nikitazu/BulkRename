@@ -1,5 +1,7 @@
 ﻿using BulkRename.Components;
 using BulkRename.Components.IO;
+using BulkRename.Components.IPC;
+using BulkRename.Components.Net;
 using BulkRename.Contexts;
 using BulkRename.ViewModels;
 using BulkRename.Views;
@@ -142,7 +144,8 @@ namespace BulkRename
         {
             new AboutView(this, new AboutContext(
                 new AboutViewModel { Title = "About Bulk Rename" },
-                new Components.Net.UpdatesComponent()
+                new UpdatesComponent(),
+                new ProcessComponent()
             )).ShowDialog();
         }
     }

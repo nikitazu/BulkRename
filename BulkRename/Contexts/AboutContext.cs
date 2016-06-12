@@ -1,6 +1,9 @@
-﻿using BulkRename.Components.Net;
+﻿using BulkRename.Components.IPC;
+using BulkRename.Components.Net;
 using BulkRename.ViewModels;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BulkRename.Contexts
 {
@@ -9,14 +12,17 @@ namespace BulkRename.Contexts
         private readonly string NL = Environment.NewLine;
 
         public AboutViewModel ViewModel { get; }
-        private UpdatesComponent _updates;
+        private readonly UpdatesComponent _updates;
+        private readonly ProcessComponent _process;
 
         public AboutContext(
             AboutViewModel viewModel,
-            UpdatesComponent updates)
+            UpdatesComponent updates,
+            ProcessComponent process)
         {
             ViewModel = viewModel;
             _updates = updates;
+            _process = process;
         }
 
         public async void CheckForUpdates()
@@ -28,14 +34,28 @@ namespace BulkRename.Contexts
                 if (_updates.ContainsVersionData(line))
                 {
                     var version = _updates.ParseVersion(line);
-                    var getVersion = _updates.MakeGetVersionUrl(version);
+                    var versionUrl = _updates.MakeGetVersionUrl(version);
                     var versionNumber = _updates.VersionToNumber(version);
                     var currentNumber = _updates.VersionToNumber(currentVersion);
                     var comparison = versionNumber > currentNumber ? "+" : versionNumber == currentNumber ? "=" : "-";
-                    ViewModel.UpdateData += $"{comparison} {version} {getVersion}{NL}";
+                    var downloadableVersion = new DownloadableVersionViewModel(version, versionUrl);
+                    ViewModel.DownloadableVersions.Add(downloadableVersion);
+                    ViewModel.DownloadableVersions = ViewModel.DownloadableVersions.ToList();
+                    ViewModel.UpdateData += $"{comparison} {version} {versionUrl}{NL}";
                 }
             });
             ViewModel.UpdateData += "READY" + NL;
+        }
+
+        public async void DownloadVersion(Uri uri)
+        {
+            var path = await _updates.DownloadVersion(uri.ToString());
+            _process.OpenFileInNavigator(path);
+        }
+
+        public void OpenUrlInBrowser(Uri uri)
+        {
+            _process.OpenUrlInBrowser(uri.ToString());
         }
     }
 }

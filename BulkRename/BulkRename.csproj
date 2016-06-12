@@ -59,6 +59,7 @@
     <Compile Include="Components\IO\DirectoryAutocompleteComponent.cs" />
     <Compile Include="Components\IO\DirectorySearchComponent.cs" />
     <Compile Include="Components\IO\FileRenameComponent.cs" />
+    <Compile Include="Components\IPC\ProcessComponent.cs" />
     <Compile Include="Components\Net\UpdatesComponent.cs" />
     <Compile Include="Components\RenamerComponent.cs" />
     <Compile Include="Contexts\AboutContext.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Contexts\OpenFolderDialogContext.cs" />
     <Compile Include="Extensions\StringParserRegex.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\DownloadableVersionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OpenFolderDialogViewModel.cs" />
     <Compile Include="ViewModels\OpenFolderViewModel.cs" />
