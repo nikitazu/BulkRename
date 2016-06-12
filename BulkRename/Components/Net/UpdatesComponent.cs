@@ -44,13 +44,14 @@ namespace BulkRename.Components.Net
         {
             var request = FileWebRequest.Create(url);
             request.Method = "GET";
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tmp.zip");
             using (var response = await request.GetResponseAsync())
             using (var stream = response.GetResponseStream())
-            using (var tmpFile = File.OpenWrite(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tmp.zip")))
+            using (var tmpFile = File.OpenWrite(filePath))
             {
                 stream.CopyTo(tmpFile);
             }
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tmp.zip");
+            return filePath;
         }
 
         public long VersionToNumber(string version)

@@ -37,11 +37,13 @@ namespace BulkRename.Contexts
                     var versionUrl = _updates.MakeGetVersionUrl(version);
                     var versionNumber = _updates.VersionToNumber(version);
                     var currentNumber = _updates.VersionToNumber(currentVersion);
-                    var comparison = versionNumber > currentNumber ? "+" : versionNumber == currentNumber ? "=" : "-";
                     var downloadableVersion = new DownloadableVersionViewModel(version, versionUrl);
                     ViewModel.DownloadableVersions.Add(downloadableVersion);
                     ViewModel.DownloadableVersions = ViewModel.DownloadableVersions.ToList();
-                    ViewModel.UpdateData += $"{comparison} {version} {versionUrl}{NL}";
+                    if (versionNumber > currentNumber)
+                    {
+                        ViewModel.UpdateData += $"New version availeable{NL}{version}{NL}{versionUrl}{NL}";
+                    }
                 }
             });
             ViewModel.UpdateData += "READY" + NL;
